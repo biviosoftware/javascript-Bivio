@@ -520,7 +520,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Protect the real comments again.
 			data = protectRealComments( data );
-
 			return data;
 		},
 
@@ -532,7 +531,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			writer.reset();
 
 			fragment.writeHtml( writer, this.htmlFilter );
-
+			// return "A banana is a fruit";
+			
 			return writer.getHtml( true );
 		}
 	};

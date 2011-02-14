@@ -105,7 +105,7 @@ CKEDITOR.config =
 	contentsLangDirection : 'ui',
 
 	/**
-	 * Language code of  the writting language which is used to author the editor
+	 * Language code of  the writing language which is used to author the editor
 	 * contents.
 	 * @default Same value with editor's UI language.
 	 * @type String
@@ -335,7 +335,8 @@ CKEDITOR.config =
 	 * @example
 	 * config.extraPlugins = 'myplugin,anotherplugin';
 	 */
-	extraPlugins : '',
+//	extraPlugins : '',
+	extraPlugins : 'bwikidataprocessor',
 
 	/**
 	 * List of plugins that must not be loaded. This is a tool setting which
@@ -346,7 +347,8 @@ CKEDITOR.config =
 	 * @example
 	 * config.removePlugins = 'elementspath,save,font';
 	 */
-	removePlugins : '',
+//	removePlugins : '',
+	removePlugins : 'htmldataprocessor',
 
 	/**
 	 * List of regular expressions to be executed over the input HTML,

@@ -10,7 +10,7 @@ if(!window.CKEDITOR)window.CKEDITOR=(function(){var a={timestamp:'',version:'3.5
 
 // Uncomment the following line to have a new timestamp generated for each
 // request, having clear cache load of the editor code.
-// CKEDITOR.timestamp = ( new Date() ).valueOf();
+CKEDITOR.timestamp = ( new Date() ).valueOf();
 
 // Set the script name to be loaded by the loader.
 CKEDITOR._autoLoad = 'core/ckeditor_basic';
@@ -18,3 +18,7 @@ CKEDITOR._autoLoad = 'core/ckeditor_basic';
 // Include the loader script.
 document.write(
 	'<script type="text/javascript" src="' + CKEDITOR.getUrl( '_source/core/loader.js' ) + '"></script>' );
+//document.write("*****************************");
+
+
+
