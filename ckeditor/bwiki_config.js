@@ -11,6 +11,7 @@ CKEDITOR.editorConfig = function( config )
 	config.toolbar_Full =
 [
     ['Source','-'],
+    ['Save',, '-'],
     ['Cut','Copy','Paste','PasteText','PasteFromWord','-'],
     ['Undo','Redo','-',
      'Find','Replace','-',
@@ -26,6 +27,6 @@ CKEDITOR.editorConfig = function( config )
     ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
     '/',
     ['Styles','Format','Font','FontSize'],
-    ['Image','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','Iframe']
+    ['Image','Table','HorizontalRule','Smiley','SpecialChar','PageBreak']
 ];
 };
