@@ -38,11 +38,11 @@ CKEDITOR.lang['en'] =
 	editor	: 'Rich Text Editor',
 
 	// Toolbar buttons without dialogs.
-	source			: 'Source',
+	source			: 'Wiki',
 	newPage			: 'New Page',
 	save			: 'Save',
 	preview			: 'Preview',
-	cut				: 'Cut',
+	cut			: 'Cut',
 	copy			: 'Copy',
 	paste			: 'Paste',
 	print			: 'Print',

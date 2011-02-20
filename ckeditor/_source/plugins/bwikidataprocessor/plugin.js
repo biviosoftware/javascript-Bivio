@@ -21,7 +21,7 @@ function b2hFormat(line, marker, open, close)
 		} else {
 		    result += c;
 		}
-            } else  {
+            } else{
 	       if ((nxt == 0) || (nxt == '\t') || (nxt == ' ')) {
 		   result += open + target + close;
 		   target = null;
@@ -87,7 +87,7 @@ function b2hLine(ctx, line)
 	    }	    	    
 	}
     } else {
-	ctx.html += line + "";
+	ctx.html += line + "\n";
     }
 }
     

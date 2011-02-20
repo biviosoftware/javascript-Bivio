@@ -70,19 +70,6 @@ constants :
 packages :
 	[
 		{
-			output : 'ckeditor_basic.js',
-			wrap : true,
-			files :
-				[
-					'_source/core/ckeditor_base.js',
-					'_source/core/event.js',
-					'_source/core/editor_basic.js',
-					'_source/core/env.js',
-					'_source/core/ckeditor_basic.js'
-				]
-		},
-
-		{
 			output : 'ckeditor.js',
 			wrap : true,
 			files :
@@ -131,7 +118,7 @@ packages :
 					'_source/core/dom/rangelist.js',
 					'_source/core/_bootstrap.js',
 					'_source/skins/kama/skin.js',
-//					'_source/lang/en.js',
+					'_source/lang/en.js',
 					'_source/plugins/about/plugin.js',
 					'_source/plugins/a11yhelp/plugin.js',
 					'_source/plugins/basicstyles/plugin.js',

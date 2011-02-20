@@ -18,7 +18,6 @@ CKEDITOR.editorConfig = function( config )
      'SelectAll','RemoveFormat', '-',
      'Maximize', 'ShowBlocks'],
     ['Link','Unlink','Anchor'],
-    ['About'],
     '/',
     ['Bold','Italic','Underline','Strike'],
     ['TextColor','BGColor'],
