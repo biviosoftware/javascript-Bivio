@@ -164,7 +164,28 @@ var directives = {
   strike: "del"
 };
 
-    
+
+// http://erlend.oftedal.no/blog/?blogid=14
+function unescapeHTML(html) 
+{
+
+    var htmlNode = document.createElement("DIV");
+
+    htmlNode.innerHTML = html;
+
+    if(htmlNode.innerText !== undefined)
+	return htmlNode.innerText;
+    // IE
+    return htmlNode.textContent;
+    // FF
+}
+
+
+function putContent(ctx, content)
+{
+    ctx.bwiki += unescapeHTML(content);
+}
+   
 
 function h2bElement(ctx)
 {
@@ -238,7 +259,7 @@ function h2bElement(ctx)
 		    opened = true;
 		}
 		if (!content.match(/^\s*$/)) {
-		    ctx.bwiki += "\n" + content;
+		    putContent(ctx, "\n" + content);
 		}
 		content = "";
 		nrChildren++;
@@ -248,13 +269,14 @@ function h2bElement(ctx)
 		if (!content.match(/^\s*$/)) {
 		    if (nrChildren == 0) {
 			if ((directive == "p") && (clazz.length == 0) && (attrs.length == 0)) {
-			    ctx.bwiki += "\n\n" + content;			
+			    putContent(ctx, "\n\n" + content);			
 			}
 			else {
-			    ctx.bwiki += "\n@" + directive + clazz + attrs + " " + content; 
+			    ctx.bwiki += "\n@" + directive + clazz + attrs;
+			    putContent(ctx, " " + content); 
 			}
 		    } else {
-			ctx.bwiki += "\n" + content;
+			putContent(ctx, "\n" + content);
 		    }
 		}
 		break;
