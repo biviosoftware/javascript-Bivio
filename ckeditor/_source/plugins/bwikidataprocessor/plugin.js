@@ -57,6 +57,33 @@ function b2hFormat(line, marker, open, close)
     return result;
 }
 
+function b2hHref(content)
+{
+    var result = '';
+    var prev = '';
+    var pos;
+    
+    while ((pos = (" " + content).search(/\s\^\S+/)) >= 0) {
+	result += content.substr(0, pos);
+	arg = content.substr(pos).match(/^\^\S+/)[0];
+	content = content.substr(pos + arg.length);
+	result += " <a href='" + arg + "'>" + arg.replace(/[_^]/g, " ") + "</a> ";
+    }
+    result += content;
+    return result;
+}
+
+function b2hMarkup(content)
+{
+    var result = content;
+
+    result = b2hFormat(result, '*', "<strong>", "</strong>");    
+    result = b2hFormat(result, '_', "<em>", "</em>");
+    result = b2hHref(result);
+    return result;
+}
+
+
 var empties = {
   "hr": true,
   "br": true
@@ -66,9 +93,6 @@ var empties = {
 
 function b2hLine(ctx, line)
 {
-    line = b2hFormat(line, '*', "<strong>", "</strong>");    
-    line = b2hFormat(line, '_', "<em>", "</em>");
-        
     if (line.match(/^\s*@\S+/)) {
         directive = line.replace(/^\s*@/, "");
 	var args = directive;
@@ -87,6 +111,8 @@ function b2hLine(ctx, line)
 	var attrs = attrArray == null ? '' : attrArray[0];
 		
 	args = args.substr(attrs.length);
+	args = b2hMarkup(args);
+	
 	if (attrs.length) {
 	    attrs = " " + attrs;
 	}   
@@ -101,7 +127,7 @@ function b2hLine(ctx, line)
 	    }	    	    
 	}
     } else {
-	ctx.html += line + "\n";
+	ctx.html += b2hMarkup(line) + "\n";
     }
 }
     
@@ -206,6 +232,7 @@ function putContent(ctx, content)
 function h2bElement(ctx)
 {
     var sta = ++ctx.cur;
+    var result = null;
 
     // Get element name: <name...
     while ((ctx.cur < ctx.html.length) && (ctx.html[ctx.cur] != ' ')
@@ -238,7 +265,7 @@ function h2bElement(ctx)
     }
     
     if (ctx.html[ctx.cur] == '/') {
-	// Closed element is an bwiki directive with no args
+	// Closed element is a bwiki directive with no args
 	ctx.cur += 2;
         ctx.bwiki += "\n@" + name + clazz + attrs;	
     } else {
@@ -277,9 +304,11 @@ function h2bElement(ctx)
 		if (!content.match(/^\s*$/)) {
 		    putContent(ctx, "\n" + content);
 		}
-		content = "";
+		content = h2bElement(ctx);
+		if (content == null) {
+		    content = "";		    
+		}
 		nrChildren++;
-		h2bElement(ctx);
 	    } else {
 		// End tag
 		if (content.match(/^\s*$/)) {
@@ -287,14 +316,25 @@ function h2bElement(ctx)
 			ctx.bwiki += "\n@" + directive + clazz + attrs + "\n@/" + directive;
 		    }		    
 		}
-		else {		    
+		else {
 		    if (nrChildren == 0) {
 			if ((directive == "p") && (clazz.length == 0) && (attrs.length == 0)) {
-			    putContent(ctx, "\n\n" + content);			
+			    putContent(ctx, "\n\n" + content);
 			}
+			else if ((directive == 'a') && attrs.match(/href=/)
+				 && (attrs.indexOf(
+					 "^" + content.replace(/^\s*|\s*$/g, "").replace(/\s/g, "_")) >= 0)) {
+			    result =  "^" + content.replace(/^\s*|\s*$/g, "").replace(/\s/g, "_");
+			}
+			else if (directive == 'strong') {
+			    result = "*" + content.replace(/^\s*|\s*$/g, "").replace(/\s/g, "*") + "*";
+                        }			
+			else if (directive == 'em') {
+			    result = "_" + content.replace(/^\s*|\s*$/g, "").replace(/\s/g, "_") + "_";
+                        }			
 			else {
 			    ctx.bwiki += "\n@" + directive + clazz + attrs;
-			    putContent(ctx, " " + content); 
+			    putContent(ctx, " " + content);
 			}
 		    }
 		    else {
@@ -315,7 +355,8 @@ function h2bElement(ctx)
 		ctx.bwiki += "\n@/" + directive;
 	    }	    
 	}	    
-    }  
+    }
+    return result;
 }
 
     
@@ -811,10 +852,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	{
 		toHtml : function( data, fixForBody )
 		{
-                        //alert(data);
                         data = b2h(data);
-                        //alert(data);
-                        //return data;
+
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
 
@@ -867,7 +906,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Protect the real comments again.
 			data = protectRealComments( data );
-			//alert(data);
 			return data;
  	        },
 
@@ -881,8 +919,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			fragment.writeHtml( writer, this.htmlFilter );
 			var html = writer.getHtml(true);
                         var bwiki = h2b(html);
-                        //alert(html);
-                        //alert(bwiki);
 			return bwiki;
 		}
 	};
