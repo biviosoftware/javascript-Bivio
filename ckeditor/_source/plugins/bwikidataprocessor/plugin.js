@@ -2,7 +2,7 @@
 // $Id$
 //
 // Visit http://www.bivio.biz for more info.
-// 
+//
 // This library is free software; you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as
 // published by the Free Software Foundation; either version 2.1 of the
@@ -16,7 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library;  If not, you may get a copy from:
 // http://www.opensource.org/licenses/lgpl-license.html
-// 
+//
+
 function b2hFormat(line, marker, open, close)
 {
     var result = '';
@@ -82,7 +83,7 @@ function b2hLine(ctx, line)
 	    directive = directive.substr(0, dot).toLowerCase();
 	}
 
-	var attrArray = args.match(/^\s*(\w+=[\"\'][^\"\']*[\"\']\s*)+/); 
+	var attrArray = args.match(/^\s*(\w+=([\"\'][^\"\']*[\"\']|\S*)\s*)+/); 
 	var attrs = attrArray == null ? '' : attrArray[0];
 		
 	args = args.substr(attrs.length);
@@ -106,6 +107,8 @@ function b2hLine(ctx, line)
     
 function b2h(bwiki)
 {
+    var orig_bwiki = bwiki;
+    
     var ctx = {
 	html: "",
     };
@@ -168,7 +171,7 @@ function b2h(bwiki)
     if (open) {
 	b2hLine(ctx, "@/p");	    
     }
-//    alert(ctx.html);
+//    alert("From: \n" + orig_bwiki + "\n\nTo:\n" + ctx.html);
     return ctx.html;
 }
 
@@ -327,7 +330,7 @@ function h2b(html)
 	}
     }
     ctx.bwiki = ctx.bwiki.replace(/^\s*|\s*$/g, "");
-//    alert(ctx.bwiki);
+//    alert("From: \n" + html + "\n\nTo:\n" + ctx.bwiki);
     return ctx.bwiki;
 }
 
