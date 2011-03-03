@@ -282,7 +282,12 @@ function h2bElement(ctx)
 		h2bElement(ctx);
 	    } else {
 		// End tag
-		if (!content.match(/^\s*$/)) {
+		if (content.match(/^\s*$/)) {
+		    if (nrChildren == 0) {			
+			ctx.bwiki += "\n@" + directive + clazz + attrs + "\n@/" + directive;
+		    }		    
+		}
+		else {		    
 		    if (nrChildren == 0) {
 			if ((directive == "p") && (clazz.length == 0) && (attrs.length == 0)) {
 			    putContent(ctx, "\n\n" + content);			
@@ -291,7 +296,8 @@ function h2bElement(ctx)
 			    ctx.bwiki += "\n@" + directive + clazz + attrs;
 			    putContent(ctx, " " + content); 
 			}
-		    } else {
+		    }
+		    else {
 			putContent(ctx, "\n" + content);
 		    }
 		}
