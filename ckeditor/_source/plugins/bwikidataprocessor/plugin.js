@@ -25,12 +25,12 @@ function b2hFormat(line, marker, open, close)
        
     
     for (var i = 0; i < line.length; i++) {
-	var c = line[i];
-	var nxt = (i < line.length - 1) ? line[i + 1] : 0;
+	var c = line.charAt(i);
+	var nxt = (i < line.length - 1) ? line.charAt(i + 1) : 0;
 	    
 	if (c == marker) {
 	    if (target == null) {
-		if ((i == 0) || (line[i - 1] == ' ') || (line[i - 1] == '\t')) {
+		if ((i == 0) || (line.charAt(i - 1) == ' ') || (line.charAt(i - 1) == '\t')) {
 		    target = "";
 		} else {
 		    result += c;
@@ -223,9 +223,9 @@ function unescapeHTML(html)
 }
 
 
-function putContent(ctx, content)
+function putContent(ctx, separator, content)
 {
-    ctx.bwiki += unescapeHTML(content);
+    ctx.bwiki += separator + unescapeHTML(content);
 }
    
 
@@ -235,10 +235,10 @@ function h2bElement(ctx)
     var result = null;
 
     // Get element name: <name...
-    while ((ctx.cur < ctx.html.length) && (ctx.html[ctx.cur] != ' ')
-	   && (ctx.html[ctx.cur] != '\t')
-	   && (ctx.html[ctx.cur] != '/')
-	   && (ctx.html[ctx.cur] != '>')) {
+    while ((ctx.cur < ctx.html.length) && (ctx.html.charAt(ctx.cur) != ' ')
+	   && (ctx.html.charAt(ctx.cur) != '\t')
+	   && (ctx.html.charAt(ctx.cur) != '/')
+	   && (ctx.html.charAt(ctx.cur) != '>')) {
         ctx.cur++;	       
     }
     var name = ctx.html.substr(sta, ctx.cur - sta);
@@ -247,7 +247,7 @@ function h2bElement(ctx)
     // Skip to end of tag
     while ((ctx.cur < ctx.html.length)
 	   && (ctx.html.substr(ctx.cur, 2) != '/>')
-	   && (ctx.html[ctx.cur] != '>')) {
+	   && (ctx.html.charAt(ctx.cur) != '>')) {
 	ctx.cur++;
     }
 
@@ -264,8 +264,8 @@ function h2bElement(ctx)
 	}
     }
     
-    if (ctx.html[ctx.cur] == '/') {
-	// Closed element is a bwiki directive with no args
+    if (ctx.html.charAt(ctx.cur) == '/') {
+	// Closed element is an bwiki directive with no args
 	ctx.cur += 2;
         ctx.bwiki += "\n@" + name + clazz + attrs;	
     } else {
@@ -278,13 +278,13 @@ function h2bElement(ctx)
 	var opened = false;
 	while (ctx.cur < ctx.html.length) {
 	    var sp = " ";
-	    while ((ctx.cur < ctx.html.length) && (ctx.html[ctx.cur] != '<')) {
+	    while ((ctx.cur < ctx.html.length) && (ctx.html.charAt(ctx.cur) != '<')) {
                 var c;		
 		if (ctx.html.substr(ctx.cur, 6) == "&nbsp;") {
 		    ctx.cur += 6;
                     c = " ";
 		} else {
-		    c = ctx.html[ctx.cur++];
+		    c = ctx.html.charAt(ctx.cur++);
 		}				
 		if ((c == "\n") || (c == " ") || (c == "\t")) {
 		    content += sp;
@@ -295,14 +295,14 @@ function h2bElement(ctx)
 		}		
 	    }
     
-	    if (ctx.html[ctx.cur + 1] != '/') {
+	    if (ctx.html.charAt(ctx.cur + 1) != '/') {
 		// Child
 		if (!opened) {
 		    ctx.bwiki += "\n@" + directive + clazz + attrs;
 		    opened = true;
 		}
 		if (!content.match(/^\s*$/)) {
-		    putContent(ctx, "\n" + content);
+		    putContent(ctx, "\n", content);
 		}
 		content = h2bElement(ctx);
 		if (content == null) {
@@ -319,7 +319,7 @@ function h2bElement(ctx)
 		else {
 		    if (nrChildren == 0) {
 			if ((directive == "p") && (clazz.length == 0) && (attrs.length == 0)) {
-			    putContent(ctx, "\n\n" + content);
+			    putContent(ctx, "\n\n", content);
 			}
 			else if ((directive == 'a') && attrs.match(/href=/)
 				 && (attrs.indexOf(
@@ -334,11 +334,10 @@ function h2bElement(ctx)
                         }			
 			else {
 			    ctx.bwiki += "\n@" + directive + clazz + attrs;
-			    putContent(ctx, " " + content);
+			    putContent(ctx, " ", content); 
 			}
-		    }
-		    else {
-			putContent(ctx, "\n" + content);
+		    } else {
+			putContent(ctx, "\n", content);
 		    }
 		}
 		break;
@@ -347,7 +346,7 @@ function h2bElement(ctx)
 	if (ctx.cur < ctx.html.length) {
 	    // End tag - skip
 	    ctx.cur += 2;
-	    while ((ctx.cur < ctx.html.length) && (ctx.html[ctx.cur] != '>')) {
+	    while ((ctx.cur < ctx.html.length) && (ctx.html.charAt(ctx.cur) != '>')) {
 		ctx.cur++;
 	    }
 	    ctx.cur++;
@@ -369,7 +368,7 @@ function h2b(html)
 	cur: 0,
     }
     while (ctx.cur < ctx.html.length) {
-	while ((ctx.cur < ctx.html.length) && (ctx.html[ctx.cur] != '<')) {	    
+	while ((ctx.cur < ctx.html.length) && (ctx.html.charAt(ctx.cur) != '<')) {	    
 	    ctx.cur++;
 	}
 	if (ctx.cur < ctx.html.length) {
