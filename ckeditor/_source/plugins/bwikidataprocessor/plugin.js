@@ -364,9 +364,10 @@ function h2b(html)
 {
     var ctx = {
 	bwiki: "",
-	html: html.replace(/<!--.*?-->/g, ""),
+        html: html.replace(/<!--.*?-->/g, ""),
 	cur: 0,
     }
+    ctx.html = ctx.html.replace(/^(\s*<p>\s*\&nbsp;<\/p>)+/, ""); // IE7 hack
     while (ctx.cur < ctx.html.length) {
 	while ((ctx.cur < ctx.html.length) && (ctx.html.charAt(ctx.cur) != '<')) {	    
 	    ctx.cur++;
