@@ -62,14 +62,19 @@ function b2hHref(content)
     var result = '';
     var prev = '';
     var pos;
-    
-    while ((pos = (" " + content).search(/\s\^\S+/)) >= 0) {
-	result += content.substr(0, pos);
-	arg = content.substr(pos).match(/^\^\S+/)[0];
-	content = content.substr(pos + arg.length);
-	result += " <a href='" + arg + "'>" + arg.replace(/[_^]/g, " ") + "</a> ";
+
+    if (!content.match(/^\s*@a\s/)) {
+	result = content;
     }
-    result += content;
+    else {	
+	while ((pos = (" " + content).search(/\s\^\S+/)) >= 0) {
+	    result += content.substr(0, pos);
+	    arg = content.substr(pos).match(/^\^\S+/)[0];
+	    content = content.substr(pos + arg.length);
+	    result += " <a href='" + arg + "'>" + arg.replace(/[_^]/g, " ") + "</a> ";
+	}
+	result += content;
+    }    
     return result;
 }
 
@@ -318,12 +323,16 @@ function h2bElement(ctx)
 		}
 		else {
 		    if (nrChildren == 0) {
+			var href;
+		       
+			if ((directive == 'a') && attrs.match(/href\s*=\s*["']([^"'])*["']/)) { 
+			    href = attrs.replace(/href\s*=\s*["']([^"'])*["']/, "$1");
+			}
 			if ((directive == "p") && (clazz.length == 0) && (attrs.length == 0)) {
 			    putContent(ctx, "\n\n", content);
 			}
-			else if ((directive == 'a') && attrs.match(/href=/)
-				 && (attrs.indexOf(
-					 "^" + content.replace(/^\s*|\s*$/g, "").replace(/\s/g, "_")) >= 0)) {
+			else if (href == "^" + content.replace(/^\s*|\s*$/g, "").replace(/\s/g, "_")) {
+                            alert('attrs: ' + attrs +'\ncontent: ' + content);	   
 			    result =  "^" + content.replace(/^\s*|\s*$/g, "").replace(/\s/g, "_");
 			}
 			else if (directive == 'strong') {
