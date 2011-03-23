@@ -1,0 +1,19 @@
+@a href="^my_help_text" My Help
+@a href="^my_help_text" My Help Text
+@a href="^my_help_text" my help text
+@a href="^my_help_text" My Help Text Link
+@a href="^my_help_text"
+My 
+@em Help
+Text
+@/a
+@img src="^a.jpg"
+@p
+Some 
+@strong bold
+text at the end 
+@/p
+@h1 test
+Click on the ^Start_Page link.
+
+You can also click on the ^A_Page, the ^B_Page or the ^C_Page.
