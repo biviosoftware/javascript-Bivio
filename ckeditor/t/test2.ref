@@ -1,0 +1,68 @@
+
+<h1>Test 1</h1>
+<h1>
+Only the
+<strong>bold</strong>
+shall survive
+</h1>
+<h1>
+Another
+<em>heading</em>
+to see if it
+<em>works</em>
+</h1>
+<h2>Another header straight after the previous one</h2>
+<h2>Ordered lists</h2>
+<ol>
+<li>The first list entry</li>
+<li>
+Other tests are
+<strong>important</strong>
+also
+</li>
+<li>
+<em>Especially this one</em>
+</li>
+</ol>
+<h2>Unordered lists</h2>
+<ul>
+<li>The first</li>
+<li>The second</li>
+<li>Another</li>
+</ul>
+<h1>Paragraphs</h1>
+<p class='myclass' id="myid">Some text in a paragraph.</p>
+<div>
+<p>Now is the hour!</p>
+<p>Strike while the iron is hot!</p>
+</div>
+<h1>
+<p>
+This is some
+<strong>bold</strong>
+text in a heading
+</p>
+</h1>
+<p>
+The compound with the formula H
+<sub>2</sub>
+O is also known as 'water'.
+</p>
+<p>
+Some
+<strong>bold</strong>
+text.
+</p>
+<p>
+Some
+<strong>bold</strong>
+text.
+</p>
+<p>
+Some
+<em>emphasized</em>
+text.
+</p>
+<br/>
+<br/>
+
