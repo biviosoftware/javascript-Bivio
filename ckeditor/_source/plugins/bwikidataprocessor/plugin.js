@@ -57,23 +57,33 @@ function b2hFormat(line, marker, open, close)
     return result;
 }
 
+function trim(str) 
+{
+    return str.replace(/^\s*|\s*$/g, "");    
+}
+
 function b2hHref(content)
 {
     var result = '';
     var prev = '';
     var pos;
 
-    if (!content.match(/^\s*@a\s/)) {
+    if (content.match(/^\s*@a\s/)) {
 	result = content;
     }
     else {	
-	while ((pos = (" " + content).search(/\s\^\S+/)) >= 0) {
-	    result += content.substr(0, pos);
-	    arg = content.substr(pos).match(/^\^\S+/)[0];
+	while ((pos = (" " + content).search(/\s\^\w+/)) >= 0) {
+	    result += "\n" + trim(content.substr(0, pos));
+	    arg = content.substr(pos).match(/^\^\w+/)[0];
 	    content = content.substr(pos + arg.length);
-	    result += " <a href='" + arg + "'>" + arg.replace(/[_^]/g, " ") + "</a> ";
+	    result += "\n<a href='" + arg + "'>" + trim(arg.replace(/^[\s^]*|\s*$/g, "").replace(/[_^]/g, " ")) + "</a>";
+	    if (!content.match(/^[\w\s]/)) {
+	       result += content.charAt(0);
+	       content = content.substr(1);
+	    }
+	    content = trim(content);			  
 	}
-	result += content;
+	result += "\n" + trim(content);
     }    
     return result;
 }
@@ -82,6 +92,7 @@ function b2hMarkup(content)
 {
     var result = content;
 
+    result = trim(result.replace(/</g, "&lt;")); 
     result = b2hFormat(result, '*', "<strong>", "</strong>");    
     result = b2hFormat(result, '_', "<em>", "</em>");
     result = b2hHref(result);
@@ -90,11 +101,10 @@ function b2hMarkup(content)
 
 
 var empties = {
-  "hr": true,
-  "br": true
+  "hr": "true",
+  "br": "true",
 }
 
-    
 
 function b2hLine(ctx, line)
 {
@@ -108,7 +118,7 @@ function b2hLine(ctx, line)
 	args = args.substr(directive.length);
 	
         if (dot > 0) {
-            clazz = " class='" + directive.substr(dot + 1) + "' ";
+            clazz = " class='" + directive.substr(dot + 1) + "'";
 	    directive = directive.substr(0, dot).toLowerCase();
 	}
 
@@ -116,23 +126,23 @@ function b2hLine(ctx, line)
 	var attrs = attrArray == null ? '' : attrArray[0];
 		
 	args = args.substr(attrs.length);
-	args = b2hMarkup(args);
-	
+	args = trim(b2hMarkup(args));
+	attrs = trim(attrs);
 	if (attrs.length) {
 	    attrs = " " + attrs;
 	}   
       	if (empties[directive]) {
-	    ctx.html += "<" + directive + clazz + attrs + "/>";
+	    ctx.html += "\n<" + directive + clazz + attrs + "/>";
 	} else if (directive[0] == '/') {
-	    ctx.html += "<" + directive + ">\n";
+	    ctx.html += "\n<" + directive + ">";
 	} else {
-	    ctx.html += "<" + directive + clazz + attrs + ">";
-	    if (args.length) {		
-		ctx.html += args + "</" + directive + ">";
-	    }	    	    
+	    ctx.html += "\n<" + directive + clazz + attrs + ">";
+	    if (trim(args).length) {		
+		ctx.html += trim(args) + "</" + directive + ">";
+	    }
 	}
     } else {
-	ctx.html += b2hMarkup(line) + "\n";
+	ctx.html += "\n" + trim(b2hMarkup(line));
     }
 }
     
@@ -144,13 +154,6 @@ function b2h(bwiki)
 	html: "",
     };
 
-    var closed = 1;
-    var implicit = 2;
-    var explicit = 3;
-   
-    var state = closed;
-    var depth = 0;
-    
     bwiki = bwiki.replace(/\r/g, "");
     while (bwiki.length > 0) {
         var pos = bwiki.indexOf("\n"); 
@@ -163,44 +166,12 @@ function b2h(bwiki)
 	    line = bwiki.substr(0, pos);
 	    bwiki = bwiki.substr(pos + 1);
 	}
-        if (line.replace(/^\s*|\s*$/g, "").length == 0) {
-	    if (state == implicit) {
-		b2hLine(ctx, "@/p");	    
-		b2hLine(ctx, "@p");	    
-	    }
+        if ((trim(line).length == 0) && ctx.html.length) {
+	    ctx.html += "\n<br/>\n<br/>";
 	}
 	else {
-	    if (line[0] == "@") {
-		if (state == implicit) {
-		    b2hLine(ctx, "@/p");
-		    state == closed;
-		}
-		if (line.match("^@[A-z0-9]+\s*$")) {
-		    state = explicit;
-		    depth++;		    
-		}
-		if (line.match("^@/[A-z0-9]\s*$")) {
-		    depth--;
-		    if (depth == 0) {
-			state = closed;
-		    }
-		}
-		b2hLine(ctx, line);
-	    }
-	    else {
-		if (state == closed) {
-		    b2hLine(ctx, "@p");	    
-		    b2hLine(ctx, line);
-		    state = implicit;
-		}
-		else {
-		    b2hLine(ctx, line);
-		}
-	    }
+	    b2hLine(ctx, line);
 	}
-    }
-    if (open) {
-	b2hLine(ctx, "@/p");	    
     }
 //    alert("From: \n" + orig_bwiki + "\n\nTo:\n" + ctx.html);
     return ctx.html;
@@ -216,6 +187,10 @@ var directives = {
 function unescapeHTML(html) 
 {
 
+    if (document == "unit-test") {
+	return html;
+    }    
+	
     var htmlNode = document.createElement("DIV");
 
     htmlNode.innerHTML = html;
@@ -237,7 +212,6 @@ function putContent(ctx, separator, content)
 function h2bElement(ctx)
 {
     var sta = ++ctx.cur;
-    var result = null;
 
     // Get element name: <name...
     while ((ctx.cur < ctx.html.length) && (ctx.html.charAt(ctx.cur) != ' ')
@@ -292,7 +266,9 @@ function h2bElement(ctx)
 		    c = ctx.html.charAt(ctx.cur++);
 		}				
 		if ((c == "\n") || (c == " ") || (c == "\t")) {
-		    content += sp;
+                    if (content.length) {
+			content += sp;
+		    }
 		    sp = "";		    
 		} else {
 		    content += c;
@@ -309,10 +285,8 @@ function h2bElement(ctx)
 		if (!content.match(/^\s*$/)) {
 		    putContent(ctx, "\n", content);
 		}
-		content = h2bElement(ctx);
-		if (content == null) {
-		    content = "";		    
-		}
+		content = "";
+		h2bElement(ctx);
 		nrChildren++;
 	    } else {
 		// End tag
@@ -323,29 +297,10 @@ function h2bElement(ctx)
 		}
 		else {
 		    if (nrChildren == 0) {
-			var href;
-		       
-			if ((directive == 'a') && attrs.match(/href\s*=\s*["']([^"'])*["']/)) { 
-			    href = attrs.replace(/href\s*=\s*["']([^"'])*["']/, "$1");
-			}
-			if ((directive == "p") && (clazz.length == 0) && (attrs.length == 0)) {
-			    putContent(ctx, "\n\n", content);
-			}
-			else if (href == "^" + content.replace(/^\s*|\s*$/g, "").replace(/\s/g, "_")) {
-                            alert('attrs: ' + attrs +'\ncontent: ' + content);	   
-			    result =  "^" + content.replace(/^\s*|\s*$/g, "").replace(/\s/g, "_");
-			}
-			else if (directive == 'strong') {
-			    result = "*" + content.replace(/^\s*|\s*$/g, "").replace(/\s/g, "*") + "*";
-                        }			
-			else if (directive == 'em') {
-			    result = "_" + content.replace(/^\s*|\s*$/g, "").replace(/\s/g, "_") + "_";
-                        }			
-			else {
-			    ctx.bwiki += "\n@" + directive + clazz + attrs;
-			    putContent(ctx, " ", content); 
-			}
-		    } else {
+			ctx.bwiki += "\n@" + directive + clazz + attrs;
+			putContent(ctx, " ", content);
+		    }
+		    else {
 			putContent(ctx, "\n", content);
 		    }
 		}
@@ -364,7 +319,6 @@ function h2bElement(ctx)
 	    }	    
 	}	    
     }
-    return result;
 }
 
     
@@ -382,7 +336,10 @@ function h2b(html)
 	    ctx.cur++;
 	}
 	if (ctx.cur < ctx.html.length) {
-	    h2bElement(ctx);	    
+	    var text = h2bElement(ctx);
+	    if (text) {		
+		ctx.bwiki += text;
+	    }	    		
 	}
     }
     ctx.bwiki = ctx.bwiki.replace(/^\s*|\s*$/g, "");
