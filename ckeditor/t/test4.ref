@@ -8,7 +8,7 @@ My
 <em>Help</em>
 Text
 </a>
-<img src="^a.jpg">
+<img src='/site/bp/a.jpg?bwiki=^a.jpg'/>
 <p>
 Some
 <strong>bold</strong>

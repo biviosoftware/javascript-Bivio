@@ -63,6 +63,8 @@ Some
 <em>emphasized</em>
 text.
 </p>
-<br/>
-<br/>
+<p>
+<img src='/site/bp/logo.gif?bwiki=^logo.gif'/>
+<img src="/site/bp/logo.gif"/>
+</p>
 

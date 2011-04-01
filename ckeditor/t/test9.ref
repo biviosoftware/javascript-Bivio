@@ -1,15 +1,15 @@
 @h1 foo
 @blockquote
-@p.b_prose  my stuff 
+@p.b_prose  my stuff
 @/blockquote
 @table
 @tr
 @td
-@p.b_prose  one 
+@p.b_prose  one
 @table
 @tr
 @td
-@p.b_prose  two 
+@p.b_prose  two
 @/td
 @/tr
 @/table
@@ -17,13 +17,13 @@
 @/tr
 @/table
 @/h1
-@p.b_prose  p1 
+@p.b_prose  p1
 @h1
-h1a 
+h1a
 @br 
-h1b 
+h1b
 @/h1
-@p.b_prose  p1 
+@p.b_prose  p1
 @table
 @tr
 @td
@@ -39,18 +39,18 @@ h1b
 @/tr
 @/table
 @h3 h 3
-@p.b_prose  p1 
-@p.b_prose  p2 
+@p.b_prose  p1
+@p.b_prose  p2
 @h2 h 2
-@p.b_prose  p3 
+@p.b_prose  p3
 @table.c1 
 @tbody
 @tr
 @td
-@p.b_prose  1.1 
+@p.b_prose  1.1
 @/td
 @td
-@p.b_prose  1.2 
+@p.b_prose  1.2
 @/td
 @td
 @/td
@@ -60,24 +60,24 @@ h1b
 @p.b_prose  2.1
 @/td
 @td.number 
-@p.b_prose  2.2 
+@p.b_prose  2.2
 @/td
 @/tr
 @/tbody
 @tr
 @td
-@p.b_prose  3.1p1 
-@p.b_prose  3.1p2 
+@p.b_prose  3.1p1
+@p.b_prose  3.1p2
 @/td
 @/tr
 @/table
 @ol
 @li
-@p.b_prose  i1.1 
-@p.b_prose  i1.2 
+@p.b_prose  i1.1
+@p.b_prose  i1.2
 @/li
 @li
-@p i2 
+@p i2
 @/li
 @li
 @p.b_prose  i3
@@ -91,7 +91,7 @@ h1b
 @input name="w1" type="text" value="" 
 @textarea cols="40" name="w5" rows="4"
 @/textarea
-@textarea cols="40" name="w6" rows="4" value6 
+@textarea cols="40" name="w6" rows="4" value6
 @textarea cols="40" name="w7" rows="4" value7
 @fieldset
 @legend options

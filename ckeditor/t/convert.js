@@ -23,6 +23,11 @@ CKEDITOR.plugins = new Object();
 CKEDITOR.plugins.add = function() {
     return '';
 }
+
+function alert()
+{
+}
+
 eval(plugin);
 
 var command = arguments[0];

@@ -62,4 +62,7 @@ Some
 @em emphasized
 text. 
 @/p
-
+@p
+@img src="^logo.gif"
+@img src="/site/bp/logo.gif"
+@/p

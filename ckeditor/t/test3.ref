@@ -1,16 +1,16 @@
 @h1 Test 1
 @h1
 @p
-Only the 
+ Only the
 @strong bold
-shall survive 
+ shall survive
 @/p
 @/h1
 @h1
 @p
-Another 
+ Another
 @em heading
-to see if it 
+ to see if it
 @em works
 @/p
 @/h1
@@ -20,9 +20,9 @@ to see if it
 @li The first list entry
 @li
 @p
-Other tests are 
+ Other tests are
 @strong important
-also 
+ also
 @/p
 @/li
 @li
@@ -43,29 +43,29 @@ also
 @/div
 @h1
 @p
-This is some 
+ This is some
 @strong bold
-text in a heading 
+ text in a heading
 @/p
 @/h1
 @p
-The compound with the formula H 
+ The compound with the formula H
 @sub 2
-O is also known as 'water'. 
+ O is also known as 'water'.
 @/p
 @p
-Some 
+ Some
 @strong bold
-text. 
+ text.
 @/p
 @p
-Some 
+ Some
 @strong bold
-text. 
+ text.
 @/p
 @p
-Some 
+ Some
 @em emphasized
-text. 
+ text.
 @/p
 
