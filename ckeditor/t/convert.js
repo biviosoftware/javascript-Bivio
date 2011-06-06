@@ -40,10 +40,10 @@ if (!filename || !command.match(/^(-tobwiki|-tohtml)$/)) {
 }
 var input = readFile(filename);
 if (command == "-tohtml") {
-    print(b2h(input) + '\n');
+    print(CKEDITOR.b2h(input) + '\n');
 }
 else {
-    print(h2b(input) + '\n');
+    print(CKEDITOR.h2b(input) + '\n');
 }
 
 

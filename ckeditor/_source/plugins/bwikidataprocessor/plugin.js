@@ -17,6 +17,8 @@
 // License along with this library;  If not, you may get a copy from:
 // http://www.opensource.org/licenses/lgpl-license.html
 //
+(function()
+{
 
 function b2hFormat(line, marker, open, close)
 {
@@ -25,34 +27,34 @@ function b2hFormat(line, marker, open, close)
        
     
     for (var i = 0; i < line.length; i++) {
-    var c = line.charAt(i);
-    var nxt = (i < line.length - 1) ? line.charAt(i + 1) : 0;
+	var c = line.charAt(i);
+	var nxt = (i < line.length - 1) ? line.charAt(i + 1) : 0;
         
-    if (c == marker) {
-        if (target == null) {
-        if ((i == 0) || (line.charAt(i - 1) == ' ') || (line.charAt(i - 1) == '\t')) {
-            target = "";
-        } else {
-            result += c;
-        }
-            } else{
-           if ((nxt == 0) || (nxt == '\t') || (nxt == ' ')) {
-           result += open + target + close;
-           target = null;
-           } else {
-           target += ' ';          
-           }
-        }
-    } else {
-        if (target == null) {
-        result += c;
-        } else {
-        target += c;
-        }   
-    }
+	if (c == marker) {
+	    if (target == null) {
+		if ((i == 0) || (line.charAt(i - 1) == ' ') || (line.charAt(i - 1) == '\t')) {
+		    target = "";
+		} else {
+		    result += c;
+		}
+            } else {
+		if ((nxt == 0) || (nxt == '\t') || (nxt == ' ')) {
+		    result += open + target + close;
+		    target = null;
+		} else {
+		    target += ' ';          
+		}
+	    }
+	} else {
+	    if (target == null) {
+		result += c;
+	    } else {
+		target += c;
+	    }   
+	}
     }       
     if (target != null) {
-    result += target;
+	result += target;
     }
     return result;
 }
@@ -121,73 +123,73 @@ function b2hLine(ctx, line)
 {
     if (line.match(/^\s*@\S+/)) {
         directive = line.replace(/^\s*@/, "");
-    var args = directive;
-    directive = directive.replace(/^(\S+).*/, "$1");
-    var dot = directive.indexOf(".");
-    var clazz = "";
+	var args = directive;
+	directive = directive.replace(/^(\S+).*/, "$1");
+	var dot = directive.indexOf(".");
+	var clazz = "";
     
-    args = args.substr(directive.length);
+	args = args.substr(directive.length);
     
         if (dot > 0) {
             clazz = " class='" + directive.substr(dot + 1) + "'";
-        directive = directive.substr(0, dot).toLowerCase();
-    }
+	    directive = directive.substr(0, dot).toLowerCase();
+	}
 
-    var attrArray = args.match(/^\s*(\w+=([\"\'][^\"\']*[\"\']|\S*)\s*)+/); 
-    var attrs = attrArray == null ? '' : attrArray[0];
+	var attrArray = args.match(/^\s*(\w+=([\"\'][^\"\']*[\"\']|\S*)\s*)+/); 
+	var attrs = attrArray == null ? '' : attrArray[0];
         
-    args = args.substr(attrs.length);
-    args = trim(b2hMarkup(args));
-    if (directive == "img") {
-        attrs = b2hImg(attrs);      
-    }   
-    attrs = trim(attrs);
-    if (attrs.length) {
-        attrs = " " + attrs;
-    }
-        if (empties[directive]) {
-        ctx.html += "\n<" + directive + clazz + attrs + "/>";
-    } else if (directive[0] == '/') {
-        ctx.html += "\n<" + directive + ">";
+	args = args.substr(attrs.length);
+	args = trim(b2hMarkup(args));
+	if (directive == "img") {
+	    attrs = b2hImg(attrs);      
+	}   
+	attrs = trim(attrs);
+	if (attrs.length) {
+	    attrs = " " + attrs;
+	}
+	if (empties[directive]) {
+	    ctx.html += "\n<" + directive + clazz + attrs + "/>";
+	} else if (directive[0] == '/') {
+	    ctx.html += "\n<" + directive + ">";
+	} else {
+	    ctx.html += "\n<" + directive + clazz + attrs + ">";
+	    if (trim(args).length) {        
+		ctx.html += trim(args) + "</" + directive + ">";
+	    }
+	}
     } else {
-        ctx.html += "\n<" + directive + clazz + attrs + ">";
-        if (trim(args).length) {        
-        ctx.html += trim(args) + "</" + directive + ">";
-        }
-    }
-    } else {
-    ctx.html += "\n" + trim(b2hMarkup(line));
+	ctx.html += "\n" + trim(b2hMarkup(line));
     }
 }
 
 
 
-function b2h(bwiki)
+CKEDITOR.b2h = function (bwiki)
 {
     var orig_bwiki = bwiki;
     
     var ctx = {
-    html: "",
+      html: "",
     };
 
     bwiki = bwiki.replace(/\r/g, "");
     while (bwiki.length > 0) {
         var pos = bwiki.indexOf("\n"); 
-    var line;
-    if (pos < 0)  {
-        line = bwiki;
-        bwiki = "";
-    }
-    else {
-        line = bwiki.substr(0, pos);
-        bwiki = bwiki.substr(pos + 1);
-    }
+	var line;
+	if (pos < 0)  {
+	    line = bwiki;
+	    bwiki = "";
+	}
+	else {
+	    line = bwiki.substr(0, pos);
+	    bwiki = bwiki.substr(pos + 1);
+	}
         if ((trim(line).length == 0) && ctx.html.length) {
-        ctx.html += "\n<br/>\n<br/>";
-    }
-    else {
-        b2hLine(ctx, line);
-    }
+	    ctx.html += "\n<br/>\n<br/>";
+	}
+	else {
+	    b2hLine(ctx, line);
+	}
     }
 //    alert("b2h - from: \n" + orig_bwiki + "\n\nTo:\n" + ctx.html);
     return ctx.html;
@@ -219,8 +221,9 @@ function unescapeHTML(html)
 
     htmlNode.innerHTML = html;
 
-    if(htmlNode.innerText !== undefined)
-    return htmlNode.innerText;
+    if(htmlNode.innerText !== undefined) {
+	return htmlNode.innerText;
+    }   
     // IE
     return htmlNode.textContent;
     // FF
@@ -230,7 +233,7 @@ function unescapeHTML(html)
 function putContent(ctx, separator, content)
 {
     ctx.bwiki += separator
-    + unescapeHTML(content.replace(/^\s+/, " ").replace(/\s*$/, ""));
+	+ unescapeHTML(content.replace(/^\s+/, " ").replace(/\s*$/, ""));
 }
    
 
@@ -252,7 +255,7 @@ function h2bElement(ctx)
     while ((ctx.cur < ctx.html.length)
        && (ctx.html.substr(ctx.cur, 2) != '/>')
        && (ctx.html.charAt(ctx.cur) != '>')) {
-    ctx.cur++;
+	ctx.cur++;
     }
 
     // Get class and other attributes
@@ -260,111 +263,111 @@ function h2bElement(ctx)
     var clazz = "";
     
     if (ctx.cur < ctx.html.length) {
-    attrs = ctx.html.substr(sta + name.length, ctx.cur - sta - name.length);
-    var carray = attrs.match(/class=[\'\"][^\'\"]*[\'\"]/);
-    if (carray != null) {
-        clazz = "." + carray[0].substr(6).replace(/[\'\"]/g, "");       
-        attrs = attrs.replace(carray[0], "");           
-    }
+	attrs = ctx.html.substr(sta + name.length, ctx.cur - sta - name.length);
+	var carray = attrs.match(/class=[\'\"][^\'\"]*[\'\"]/);
+	if (carray != null) {
+	    clazz = "." + carray[0].substr(6).replace(/[\'\"]/g, "");       
+	    attrs = attrs.replace(carray[0], "");           
+	}
     }
     
     if (ctx.html.charAt(ctx.cur) == '/') {
     // Closed element is an bwiki directive with no args
-    ctx.cur += 2;
-    if (directive == "img") {
-        attrs = h2bImg(attrs);
-    }           
+	ctx.cur += 2;
+	if (directive == "img") {
+	    attrs = h2bImg(attrs);
+	}           
         ctx.bwiki += "\n@" + name + clazz + attrs;  
     } else {
-    // Not closed - skip '>'
-    if (ctx.cur < ctx.html.length) {
-        ctx.cur++;
-    }    
-    var content = "";
-    var nrChildren = 0;
-    var opened = false;
-    while (ctx.cur < ctx.html.length) {
-        var sp = " ";
-        while ((ctx.cur < ctx.html.length) && (ctx.html.charAt(ctx.cur) != '<')) {
-                var c;      
-        if (ctx.html.substr(ctx.cur, 6) == "&nbsp;") {
-            ctx.cur += 6;
-                    c = " ";
-        } else {
-            c = ctx.html.charAt(ctx.cur++);
-        }               
-        if ((c == "\n") || (c == " ") || (c == "\t")) {
-            content += sp;
-            sp = "";            
-        } else {
-            content += c;
-            sp = " ";           
-        }       
-        }
+	// Not closed - skip '>'
+	if (ctx.cur < ctx.html.length) {
+	    ctx.cur++;
+	}    
+	var content = "";
+	var nrChildren = 0;
+	var opened = false;
+	while (ctx.cur < ctx.html.length) {
+	    var sp = " ";
+	    while ((ctx.cur < ctx.html.length) && (ctx.html.charAt(ctx.cur) != '<')) {
+		var c;      
+		if (ctx.html.substr(ctx.cur, 6) == "&nbsp;") {
+		    ctx.cur += 6;
+		    c = " ";
+		} else {
+		    c = ctx.html.charAt(ctx.cur++);
+		}               
+		if ((c == "\n") || (c == " ") || (c == "\t")) {
+		    content += sp;
+		    sp = "";            
+		} else {
+		    content += c;
+		    sp = " ";           
+		}       
+	    }
     
-        if (ctx.html.charAt(ctx.cur + 1) != '/') {
-        // Child
-        if (!opened) {
-            ctx.bwiki += "\n@" + directive + clazz + attrs;
-            opened = true;
-        }
-        if (!content.match(/^\s*$/)) {
-            putContent(ctx, "\n", content);
-        }
-        content = "";
-        h2bElement(ctx);
-        nrChildren++;
-        } else {
+	    if (ctx.html.charAt(ctx.cur + 1) != '/') {
+		// Child
+		if (!opened) {
+		    ctx.bwiki += "\n@" + directive + clazz + attrs;
+		    opened = true;
+		}
+		if (!content.match(/^\s*$/)) {
+		    putContent(ctx, "\n", content);
+		}
+		content = "";
+		h2bElement(ctx);
+		nrChildren++;
+	    } else {
         // End tag
-        if (content.match(/^\s*$/)) {
-            if (nrChildren == 0) {
-            ctx.bwiki += "\n@" + directive + clazz + attrs + "\n@/" + directive;
-            }           
-        }
-        else {
-            if (nrChildren == 0) {
-            ctx.bwiki += "\n@" + directive + clazz + attrs;
-            putContent(ctx, " ", content);
-            }
-            else {
-            putContent(ctx, "\n", content);
-            }
-        }
-        break;
-        }
-    }
-    if (ctx.cur < ctx.html.length) {
-        // End tag - skip
-        ctx.cur += 2;
-        while ((ctx.cur < ctx.html.length) && (ctx.html.charAt(ctx.cur) != '>')) {
-        ctx.cur++;
-        }
-        ctx.cur++;
-        if (nrChildren > 0) {
-        ctx.bwiki += "\n@/" + directive;
-        }       
-    }       
+		if (content.match(/^\s*$/)) {
+		    if (nrChildren == 0) {
+			ctx.bwiki += "\n@" + directive + clazz + attrs + "\n@/" + directive;
+		    }           
+		}
+		else {
+		    if (nrChildren == 0) {
+			ctx.bwiki += "\n@" + directive + clazz + attrs;
+			putContent(ctx, " ", content);
+		    }
+		    else {
+			putContent(ctx, "\n", content);
+		    }
+		}
+		break;
+	    }
+	}
+	if (ctx.cur < ctx.html.length) {
+	    // End tag - skip
+	    ctx.cur += 2;
+	    while ((ctx.cur < ctx.html.length) && (ctx.html.charAt(ctx.cur) != '>')) {
+		ctx.cur++;
+	    }
+	    ctx.cur++;
+	    if (nrChildren > 0) {
+		ctx.bwiki += "\n@/" + directive;
+	    }       
+	}       
     }
 }
 
-function h2b(html)
+CKEDITOR.h2b = function (html)
 {
     var ctx = {
-    bwiki: "",
-        html: html.replace(/<!--.*?-->/g, ""),
-    cur: 0,
+      bwiki: "",
+      html: html.replace(/<!--.*?-->/g, ""),
+      cur: 0,
     }
     ctx.html = ctx.html.replace(/^(\s*<p>\s*\&nbsp;<\/p>)+/, ""); // IE7 hack
     while (ctx.cur < ctx.html.length) {
-    while ((ctx.cur < ctx.html.length) && (ctx.html.charAt(ctx.cur) != '<')) {      
-        ctx.cur++;
-    }
-    if (ctx.cur < ctx.html.length) {
-        var text = h2bElement(ctx);
-        if (text) {     
-        ctx.bwiki += text;
-        }               
-    }
+	while ((ctx.cur < ctx.html.length) && (ctx.html.charAt(ctx.cur) != '<')) {      
+	    ctx.cur++;
+	}
+	if (ctx.cur < ctx.html.length) {
+	    var text = h2bElement(ctx);
+	    if (text) {     
+		ctx.bwiki += text;
+	    }               
+	}
     }
     ctx.bwiki = ctx.bwiki.replace(/^\s*|\s*$/g, "");
 //    alert("From: \n" + html + "\n\nTo:\n" + ctx.bwiki);
@@ -376,9 +379,11 @@ function h2b(html)
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
+    // Only regenerate bwiki if HTML was edited 
+    var originalBwiki;
+    var originalHtml;
 
-(function()
-{
+
     // Regex to scan for &nbsp; at the end of blocks, which are actually placeholders.
     // Safari transforms the &nbsp; to \xa0. (#4172)
     var tailNbspRegex = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/;
@@ -843,13 +848,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
         toHtml : function( data, fixForBody )
         {
 
-                        if (fixForBody) {
-                           data = b2h(data);
-                        }
+            if (fixForBody) {
+                originalBwiki = data;
+                data = CKEDITOR.b2h(data);
+            }
+
             // The source data is already HTML, but we need to clean
             // it up and apply the filter.
 
             data = protectSource( data, this.editor.config.protectedSource );
+
 
             // Before anything, we must protect the URL attributes as the
             // browser may changing them when setting the innerHTML later in
@@ -894,24 +902,32 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                 writer = new CKEDITOR.htmlParser.basicWriter();
 
             fragment.writeHtml( writer, this.dataFilter );
-            data = writer.getHtml( true );
 
+            data = writer.getHtml( true );
             // Protect the real comments again.
             data = protectRealComments( data );
+            var htmlNode = document.createElement("DIV");
+            htmlNode.innerHTML = data;
+            data = originalHtml = htmlNode.innerHTML;							  
             return data;
-            },
+        },
 
         toDataFormat : function( html, fixForBody )
         {
-            var writer = this.writer,
-                fragment = CKEDITOR.htmlParser.fragment.fromHtml( html, fixForBody );
+            if (html == originalHtml) {
+		return originalBwiki;	
+            }
+
+	    var writer = this.writer,
+            fragment = CKEDITOR.htmlParser.fragment.fromHtml( html, fixForBody );
 
             writer.reset();
 
             fragment.writeHtml( writer, this.htmlFilter );
             var html = writer.getHtml(true);
-                        var bwiki = h2b(html);
-            return bwiki;
+	    
+            var bwiki = CKEDITOR.h2b(html);
+	    return bwiki;
         }
     };
 })();
