@@ -82,11 +82,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	function dewikifyUrl(url)
 	{
-	    var site = document.location.pathname.match("^\/[^\/]*");
+	    if (url.match(/^\/|:\/\//)) {
+		return url;		
+	    }
+	    var site = document.location.pathname.match(/^\/[^\/]*/);
 	    if (site == null) {
 		return url;
 	    }
-	    return url.replace(/^\^(.*)/, site[0] + "/bp/$1?bwiki=^$1");
+	    return url.replace(/^(\^?)(.*)/, site[0] + "/bp/$2?bwiki=$1$2");
 	}
     
 	function wikifyUrl(url)

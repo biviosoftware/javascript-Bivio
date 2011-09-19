@@ -94,12 +94,15 @@ function b2hA(content)
 
 function b2hImg(attrs)
 {
-    var site = document.location.pathname.match("^\/[^\/]*");
+    if (attrs.match(/src\s*=\s*(\"|\')?(\/|\w*:\/\/)/)) {
+	return attrs;
+    }
+    var site = document.location.pathname.match(/^\/[^\/]*/);
     if (site == null) {
 	return attrs;
     }
-    var result = attrs.replace(/src\s*=\s*("|"|'|')?\^([^""''\s]*)("|"|'|')?/,
-			       "src='" + site[0]+ "/bp/$2?bwiki=^$2'");
+    var result = attrs.replace(/src\s*=\s*(\"|\')?(\^?)([^\"\'\s]*)(\"|\')?/,
+			       "src='" + site[0]+ "/bp/$3?bwiki=$2$3'");
     return result;
 }
 
@@ -195,7 +198,7 @@ CKEDITOR.b2h = function (bwiki)
 	    b2hLine(ctx, line);
 	}
     }
-//    alert("b2h - from: \n" + orig_bwiki + "\n\nTo:\n" + ctx.html);
+    alert("b2h - from: \n" + orig_bwiki + "\n\nTo:\n" + ctx.html);
     return ctx.html;
 }
 
