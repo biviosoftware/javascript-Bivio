@@ -82,17 +82,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	function dewikifyUrl(url)
 	{
-	    return url.replace(/^\/site\/bp\/.*?bwiki=/, "");
+	    var site = document.location.pathname.match("^\/[^\/]*");
+	    if (site == null) {
+		return url;
+	    }
+	    return url.replace(/^\^(.*)/, site[0] + "/bp/$1?bwiki=^$1");
 	}
-
-	
+    
 	function wikifyUrl(url)
 	{
-	    return url.replace(/^\^(.*)/, "/site/bp/$1?bwiki=^$1");
+	    return url.replace(/^\/.*?bwiki=/, "");
 	}
-	
-	
-
+    
         // Avoid recursions.
         var incommit;
 
@@ -509,7 +510,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                                             onChange : function()
                                             {
                                                 var dialog = this.getDialog(),
-                                                    newUrl = wikifyUrl(this.getValue());
+                                                    newUrl = dewikifyUrl(this.getValue());
 
                                                 //Update original image
                                                 if ( newUrl.length > 0 )    //Prevent from load before onShow
@@ -547,7 +548,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                                             {
                                                 if ( type == IMAGE )
                                                 {
-                                                    var url = dewikifyUrl(element.data( 'cke-saved-src' ) || element.getAttribute( 'src' ));
+                                                    var url = wikifyUrl(element.data( 'cke-saved-src' ) || element.getAttribute( 'src' ));
                                                     var field = this;
 
                                                     this.getDialog().dontResetSize = true;
@@ -561,7 +562,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                                             {
                                                 if ( type == IMAGE && ( this.getValue() || this.isChanged() ) )
                                                 {
-                                                    var url = wikifyUrl(this.getValue());
+                                                    var url = dewikifyUrl(this.getValue());
                                                                      
                                                     element.data( 'cke-saved-src', url );
                                                     element.setAttribute( 'src', url );

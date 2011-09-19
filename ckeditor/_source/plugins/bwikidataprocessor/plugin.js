@@ -94,8 +94,12 @@ function b2hA(content)
 
 function b2hImg(attrs)
 {
+    var site = document.location.pathname.match("^\/[^\/]*");
+    if (site == null) {
+	return attrs;
+    }
     var result = attrs.replace(/src\s*=\s*("|"|'|')?\^([^""''\s]*)("|"|'|')?/,
-                   "src='/site/bp/$2?bwiki=^$2'");
+			       "src='" + site[0]+ "/bp/$2?bwiki=^$2'");
     return result;
 }
 
@@ -203,7 +207,7 @@ var directives = {
 
 function h2bImg(attrs) 
 {
-    attrs = attrs.replace(/src=('|'|"|")\/site\/bp\/.*?bwiki=/, "src=$1");
+    attrs = attrs.replace(/src=('|'|"|")\/[^\/]*\/bp\/.*?bwiki=/, "src=$1");
     return attrs;
 }
 
