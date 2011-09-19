@@ -9,7 +9,13 @@ var plugin = readFile("_source/plugins/bwikidataprocessor/plugin.js");
 // 
 
 var window = new Object();
-var document = "unit-test";
+var document = {
+  unit_test: true,
+  location: {
+      pathname: '/site/',
+  }
+  
+};
 var CKEDITOR = new Object();
 CKEDITOR.tools = new Object();
 CKEDITOR.tools.extend = function() {

@@ -198,7 +198,7 @@ CKEDITOR.b2h = function (bwiki)
 	    b2hLine(ctx, line);
 	}
     }
-    alert("b2h - from: \n" + orig_bwiki + "\n\nTo:\n" + ctx.html);
+//    alert("b2h - from: \n" + orig_bwiki + "\n\nTo:\n" + ctx.html);
     return ctx.html;
 }
 
@@ -220,8 +220,8 @@ function h2bImg(attrs)
 function unescapeHTML(html) 
 {
 
-    if (document == "unit-test") {
-    return html;
+    if (document.unit_test) {
+	return html;
     }    
     
     var htmlNode = document.createElement("DIV");

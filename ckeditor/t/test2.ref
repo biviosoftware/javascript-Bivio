@@ -65,6 +65,8 @@ text.
 </p>
 <p>
 <img src='/site/bp/logo.gif?bwiki=^logo.gif'/>
-<img src="/site/bp/logo.gif"/>
+<img src='/site/bp/logo.gif?bwiki=logo.gif'/>
+<img src="/abs/logo.gif"/>
+<img src="http://www.acme.com/logo.gif"/>
 </p>
 
