@@ -224,8 +224,8 @@ CKEDITOR.plugins.add( 'dialogui' );
                 var domId = this._.inputId = CKEDITOR.tools.getNextId() + '_textInput',
                     attributes = { 'class' : 'cke_dialog_ui_input_' + elementDefinition.type, id : domId, type : 'text' },
                     i;
-	       if ( elementDefinition.export ) {
-	           CKEDITOR['g_textInput_' + elementDefinition.export ] = this;
+	       if ( elementDefinition.exportElement ) {
+		   CKEDITOR['g_textInput_' + elementDefinition.exportElement ] = this;
 	       }
 		    
                 // Set the validator, if any.
@@ -748,7 +748,6 @@ CKEDITOR.plugins.add( 'dialogui' );
 		    if (site == null) {
 			site = "site";
 		    }
-		    alert( CKEDITOR.config.filebrowserImageUploadUrl);
 		    
                     var html = [
 			'<script type="text/javascript">' +
@@ -1489,8 +1488,6 @@ CKEDITOR.plugins.add( 'dialogui' );
 
                     function generateFormField()
                     {
-			return;
-			
                         frameDocument.$.open();
 
                         // Support for custom document.domain in IE.
@@ -1510,7 +1507,6 @@ CKEDITOR.plugins.add( 'dialogui' );
                                 '" size="',
                                 CKEDITOR.tools.htmlEncode( size > 0 ? size : "" ),
                                 '" />',
-				'<input type="hidden" value="1" name="v">',
                                 '</form>',
                                 '</body></html>',
                                 '<script>window.parent.CKEDITOR.tools.callFunction(' + callNumber + ');',

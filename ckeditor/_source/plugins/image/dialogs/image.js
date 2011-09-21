@@ -511,7 +511,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                                             type : 'text',
                                             label : editor.lang.common.url,
                                             required: true,
-					    export: 'imageUrl',					    
+					    exportElement: 'imageUrl',					    
                                             onChange : function()
                                             {
                                                 var dialog = this.getDialog(),
