@@ -957,7 +957,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
                             contents.label,
                     '</a>'
                 ].join( '' ) );
-
+            if (contents.exportDomId) {
+		CKEDITOR['g_tab_' + contents.exportDomId] = tabId;		
+	    }
+	    
             page.setAttribute( 'aria-labelledby', tabId );
 
             // Take records for the tabs and elements created.

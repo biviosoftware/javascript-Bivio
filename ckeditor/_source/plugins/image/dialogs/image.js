@@ -80,22 +80,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
             });
         }
 
-	function dewikifyUrl(url)
-	{
-	    if (url.match(/^\/|:\/\//)) {
-		return url;		
-	    }
-	    var site = document.location.pathname.match(/^\/[^\/]*/);
-	    if (site == null) {
-		return url;
-	    }
-	    return url.replace(/^(\^?)(.*)/, site[0] + "/bp/$2?bwiki=$1$2");
-	}
+    function dewikifyUrl(url)
+    {
+        if (url.match(/^\/|:\/\//)) {
+        return url;     
+        }
+        var site = document.location.pathname.match(/^\/[^\/]*/);
+        if (site == null) {
+        return url;
+        }
+        return url.replace(/^(\^?)(.*)/, site[0] + "/bp/$2?bwiki=$1$2");
+    }
     
-	function wikifyUrl(url)
-	{
-	    return url.replace(/^\/.*?bwiki=/, "");
-	}
+    function wikifyUrl(url)
+    {
+        return url.replace(/^\/.*?bwiki=/, "");
+    }
     
         // Avoid recursions.
         var incommit;
@@ -237,7 +237,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
             // Hide loader
             CKEDITOR.document.getById( imagePreviewLoaderId ).setStyle( 'display', 'none' );
 
-            // New image -> new domensions
+            // New image -> new dimensions
             if ( !this.dontResetSize )
                 resetSize( this );
 
@@ -490,6 +490,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
             contents : [
                 {
                     id : 'info',
+		    exportDomId: 'info',
                     label : editor.lang.image.infoTab,
                     accessKey : 'I',
                     elements :
@@ -510,11 +511,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                                             type : 'text',
                                             label : editor.lang.common.url,
                                             required: true,
+					    export: 'imageUrl',					    
                                             onChange : function()
                                             {
                                                 var dialog = this.getDialog(),
                                                     newUrl = dewikifyUrl(this.getValue());
-
+						
                                                 //Update original image
                                                 if ( newUrl.length > 0 )    //Prevent from load before onShow
                                                 {
@@ -549,11 +551,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                                             },
                                             setup : function( type, element )
                                             {
+						
                                                 if ( type == IMAGE )
                                                 {
-                                                    var url = wikifyUrl(element.data( 'cke-saved-src' ) || element.getAttribute( 'src' ));
+                                                    var url = wikifyUrl(element.data( 'cke-saved-src' )
+									|| element.getAttribute( 'src' ));
                                                     var field = this;
-
+						    
                                                     this.getDialog().dontResetSize = true;
 
                                                     field.setValue( url );      // And call this.onChange()
@@ -1177,25 +1181,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                 },
                 {
                     id : 'Upload',
-                    hidden : true,
-                    filebrowser : 'uploadButton',
+                    hidden : false,
                     label : editor.lang.image.upload,
                     elements :
                     [
                         {
-                            type : 'file',
-                            id : 'upload',
-                            label : editor.lang.image.btnUpload,
-                            style: 'height:40px',
-                            size : 38
+                            type : 'bop_file_upload',
                         },
-                        {
-                            type : 'fileButton',
-                            id : 'uploadButton',
-                            filebrowser : 'info:txtUrl',
-                            label : editor.lang.image.btnUpload,
-                            'for' : [ 'Upload', 'upload' ]
-                        }
                     ]
                 },
                 {
