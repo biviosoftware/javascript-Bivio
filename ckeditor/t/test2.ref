@@ -1,24 +1,18 @@
 
 <h1>Test 1</h1>
-<h1>
-Only the
-<strong>bold</strong>
-shall survive
+<h1>Only the 
+<strong>bold</strong> shall survive
 </h1>
-<h1>
-Another
-<em>heading</em>
-to see if it
+<h1>Another 
+<em>heading</em> to see if it 
 <em>works</em>
 </h1>
 <h2>Another header straight after the previous one</h2>
 <h2>Ordered lists</h2>
 <ol>
 <li>The first list entry</li>
-<li>
-Other tests are
-<strong>important</strong>
-also
+<li>Other tests are 
+<strong>important</strong> also
 </li>
 <li>
 <em>Especially this one</em>
@@ -37,31 +31,21 @@ also
 <p>Strike while the iron is hot!</p>
 </div>
 <h1>
-<p>
-This is some
-<strong>bold</strong>
-text in a heading
+<p>This is some 
+<strong>bold</strong> text in a heading 
 </p>
 </h1>
-<p>
-The compound with the formula H
-<sub>2</sub>
-O is also known as 'water'.
+<p>The compound with the formula H 
+<sub>2</sub>O is also known as 'water'. 
 </p>
-<p>
-Some
-<strong>bold</strong>
-text.
+<p>Some 
+<strong>bold</strong> text. 
 </p>
-<p>
-Some
-<strong>bold</strong>
-text.
+<p>Some 
+<strong>bold</strong> text. 
 </p>
-<p>
-Some
-<em>emphasized</em>
-text.
+<p>Some 
+<em>emphasized</em> text. 
 </p>
 <p>
 <img src='/site/bp/logo.gif?bwiki=^logo.gif'/>

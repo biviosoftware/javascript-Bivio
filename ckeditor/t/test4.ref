@@ -3,16 +3,12 @@
 <a href="^my_help_text">My Help Text</a>
 <a href="^my_help_text">my help text</a>
 <a href="^my_help_text">My Help Text Link</a>
-<a href="^my_help_text">
-My
-<em>Help</em>
-Text
+<a href="^my_help_text">My 
+<em>Help</em>Text
 </a>
 <img src='/site/bp/a.jpg?bwiki=^a.jpg'/>
-<p>
-Some
-<strong>bold</strong>
-text at the end
+<p>Some 
+<strong>bold</strong> text at the end 
 </p>
 <h1>test</h1>
 Click on the
@@ -20,10 +16,12 @@ Click on the
 link.
 <br/>
 <br/>
+
 You can also click on the
 <a href='^A_Page'>A Page</a>,
 the
 <a href='^B_Page'>B Page</a>
 or the
 <a href='^C_Page'>C Page</a>.
+
 

@@ -2,12 +2,12 @@
 @h1
 Only the 
 @strong bold
-shall survive
+ shall survive
 @/h1
 @h1
 Another 
 @em heading
-to see if it 
+ to see if it 
 @em works
 @/h1
 @h2 Another header straight after the previous one
@@ -17,7 +17,7 @@ to see if it
 @li
 Other tests are 
 @strong important
-also
+ also
 @/li
 @li
 @em Especially this one
@@ -39,7 +39,7 @@ also
 @p
 This is some 
 @strong bold
-text in a heading 
+ text in a heading 
 @/p
 @/h1
 @p
@@ -50,17 +50,17 @@ O is also known as 'water'.
 @p
 Some 
 @strong bold
-text. 
+ text. 
 @/p
 @p
 Some 
 @strong bold
-text. 
+ text. 
 @/p
 @p
 Some 
 @em emphasized
-text. 
+ text. 
 @/p
 @p
 @img src="^logo.gif"

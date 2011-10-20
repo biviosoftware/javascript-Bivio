@@ -111,7 +111,7 @@ function b2hMarkup(content)
 {
     var result = content;
 
-    result = trim(result.replace(/</g, "&lt;")); 
+    result = result.replace(/</g, "&lt;"); 
     result = b2hFormat(result, '*', "<strong>", "</strong>");    
     result = b2hFormat(result, '_', "<em>", "</em>");
     result = b2hA(result);
@@ -134,7 +134,8 @@ function b2hLine(ctx, line)
 	directive = directive.replace(/^(\S+).*/, "$1");
 	var dot = directive.indexOf(".");
 	var clazz = "";
-    
+
+	ctx.required_space = "";
 	args = args.substr(directive.length);
     
         if (dot > 0) {
@@ -165,7 +166,8 @@ function b2hLine(ctx, line)
 	    }
 	}
     } else {
-	ctx.html += "\n" + trim(b2hMarkup(line));
+	ctx.html += ctx.required_space + b2hMarkup(line);
+	ctx.required_space = "\n";	
     }
 }
 
@@ -177,6 +179,7 @@ CKEDITOR.b2h = function (bwiki)
     
     var ctx = {
       html: "",
+      required_space: "",
     };
 
     bwiki = bwiki.replace(/\r/g, "");
@@ -198,13 +201,19 @@ CKEDITOR.b2h = function (bwiki)
 	    b2hLine(ctx, line);
 	}
     }
-//    alert("b2h - from: \n" + orig_bwiki + "\n\nTo:\n" + ctx.html);
+    // alert("b2h - from: \n" + orig_bwiki + "\n\nTo:\n" + ctx.html);
     return ctx.html;
 }
 
 
 var directives = {
-  strike: "del"
+  strike: {
+      directive: "del",
+  },  
+  u: {
+      directive: "span",
+      attributes: "style='text-decoration:underline;'",
+  },
 };
 
 
@@ -256,7 +265,7 @@ function h2bElement(ctx)
         ctx.cur++;         
     }
     var name = ctx.html.substr(sta, ctx.cur - sta);
-    var directive = directives[name] ? directives[name] : name;
+    var directive = directives[name] ? directives[name].directive : name;
     
     // Skip to end of tag
     while ((ctx.cur < ctx.html.length)
@@ -276,6 +285,10 @@ function h2bElement(ctx)
 	    clazz = "." + carray[0].substr(6).replace(/[\'\"]/g, "");       
 	    attrs = attrs.replace(carray[0], "");           
 	}
+    }
+    if (directives[name] && directives[name].attributes) {
+	attrs += ' ' + directives[name].attributes;
+	
     }
     
     if (ctx.html.charAt(ctx.cur) == '/') {
@@ -377,7 +390,7 @@ CKEDITOR.h2b = function (html)
 	}
     }
     ctx.bwiki = ctx.bwiki.replace(/^\s*|\s*$/g, "");
-//    alert("From: \n" + html + "\n\nTo:\n" + ctx.bwiki);
+//  alert("From: \n" + html + "\n\nTo:\n" + ctx.bwiki);
     return ctx.bwiki;
 }
 
