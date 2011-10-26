@@ -1,0 +1,14 @@
+@h1 The table test
+@table
+@tr
+@td style="color: red;" One
+@td Two
+@td Three
+@/tr
+@tr
+@td A
+@td B
+@td C
+@/tr
+@/table
+
