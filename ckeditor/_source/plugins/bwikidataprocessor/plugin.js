@@ -212,7 +212,7 @@ var directives = {
   },  
   u: {
       directive: "span",
-      attributes: "style='text-decoration:underline;'",
+      attributes: "style=\"text-decoration:underline;\"",
   },
 };
 
