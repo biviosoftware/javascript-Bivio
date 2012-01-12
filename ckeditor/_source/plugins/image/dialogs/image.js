@@ -1181,7 +1181,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                 },
                 {
                     id : 'Upload',
-                    hidden : false,
+                    hidden : typeof(CKEDITOR.config.filebrowserImageUploadUrl) == 'undefined',
                     label : editor.lang.image.upload,
                     elements :
                     [
