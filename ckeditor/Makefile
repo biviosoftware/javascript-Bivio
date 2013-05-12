@@ -20,7 +20,7 @@ clean:: clean_test_results
 	-rm -f $(BIN)
 
 clean_test_results::
-	-rm test*.out
+	-rm -f test*.out
 
 %.out: t/%.html
 	$(BWDP) -tobwiki $+ >$@
