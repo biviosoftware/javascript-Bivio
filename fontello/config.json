@@ -104,13 +104,13 @@
     },
     {
       "uid": "bc71f4c6e53394d5ba46b063040014f1",
-      "css": "cw",
+      "css": "arrow_cw",
       "code": 59394,
       "src": "fontawesome"
     },
     {
       "uid": "f9c3205df26e7778abac86183aefdc99",
-      "css": "ccw",
+      "css": "arrow_ccw",
       "code": 59429,
       "src": "fontawesome"
     },
@@ -236,7 +236,7 @@
     },
     {
       "uid": "a58032f4aafd0eec54803075f5b320d4",
-      "css": "email",
+      "css": "envelope",
       "code": 59396,
       "src": "zocial"
     },
