@@ -1,0 +1,7 @@
+ALL_JS=all.js
+ALL_CSS=all.css
+COMPRESS=java com.yahoo.platform.yui.compressor.Bootstrap --line-break 1000 --nomunge --preserve-semi --disable-optimizations
+COMPRESS_JS=$(COMPRESS) --type js
+COMPRESS_CSS=$(COMPRESS) --type css
+COMPRESS_JS_STD=$(COMPRESS_JS) -o $(ALL_JS)
+COMPRESS_CSS_STD=$(COMPRESS_CSS) -o $(ALL_CSS)
