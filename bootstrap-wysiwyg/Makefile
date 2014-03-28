@@ -6,4 +6,4 @@ all:: $(DEP_JS)
 	$(COMPRESS_JS_STD) $(DEP_JS)
 
 clean::
-	-rm -rf $(ALL_JS)
+	$(CLEAN_JS_STD)
