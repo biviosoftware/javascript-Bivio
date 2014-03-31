@@ -1,12 +1,10 @@
 # $Id$
 include ../makefile.defs
-IMAGES=images
+PACKAGE=jquery
 
-all::
-	( for f in */*.js; do $(COMPRESS_JS) $$f; done ) > $(ALL_JS)
-#	$(COMPRESS) --type css -o $(ALL_CSS) */*.css
-#	install -m 755 -d $(IMAGES)
-#	install -m 444 */images/*.* $(IMAGES)
+all:: $(PACKAGE_JS_PATH)
+	$(MAKE_JS_INSTALL_DIR)
+	$(INSTALL_JS)
 
 clean::
-	-rm -rf $(ALL_JS) $(ALL_CSS) $(IMAGES)
+	$(RM_PACKAGE)

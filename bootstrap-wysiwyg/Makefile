@@ -1,9 +1,10 @@
 # $Id$
 include ../makefile.defs
-DEP_JS=bootstrap-wysiwyg.js
+PACKAGE=bootstrap-wysiwyg
 
-all:: $(DEP_JS)
-	$(COMPRESS_JS_STD) $(DEP_JS)
+all:: $(PACKAGE_JS_PATH)
+	$(MAKE_JS_INSTALL_DIR)
+	$(INSTALL_JS)
 
 clean::
-	$(CLEAN_JS_STD)
+	$(RM_PACKAGE)

@@ -1,9 +1,10 @@
 # $Id$
 include ../makefile.defs
-DEP_JS=msie8shim.min.js
+PACKAGE=msie8shim
 
-all:: $(DEP_JS)
-	ln -fs $(DEP_JS) $(ALL_JS)
+all::
+	$(MAKE_JS_INSTALL_DIR)
+	( for f in *.js; do $(COMPRESS_JS) $$f; done ) > $(INSTALL_JS_PATH)
 
 clean::
-	-unlink $(ALL_JS)
+	$(RM_PACKAGE)

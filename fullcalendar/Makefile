@@ -1,6 +1,6 @@
-# $Id$
+# $Id:
 include ../makefile.defs
-PACKAGE=jquery-ui
+PACKAGE=fullcalendar
 
 all:: $(PACKAGE_JS_PATH) $(PACKAGE_CSS_PATH)
 	$(MAKE_JS_INSTALL_DIR)

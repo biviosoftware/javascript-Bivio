@@ -1,9 +1,13 @@
 # $Id$
 include ../makefile.defs
-DEP_JS=dist/js/bootstrap.min.js
+PACKAGE=bootstrap
+PACKAGE_JS_DIR=dist/js
 
-all:: $(DEP_JS)
-	ln -fs $(DEP_JS) $(ALL_JS)
+all:: $(PACKAGE_JS_PATH)
+	echo -- make --
+	$(MAKE_JS_INSTALL_DIR)
+	$(INSTALL_JS)
 
 clean::
-	-unlink $(ALL_JS)
+	echo -- make clean --
+	$(RM_PACKAGE)
