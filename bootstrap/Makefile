@@ -4,10 +4,11 @@ PACKAGE=bootstrap
 PACKAGE_JS_DIR=dist/js
 
 all:: $(PACKAGE_JS_PATH)
-	echo -- make --
 	$(MAKE_JS_INSTALL_DIR)
 	$(INSTALL_JS)
+	mkdir -p $(INSTALL_PACKAGE_DIR)/less
+	cp -r less/*.less $(INSTALL_PACKAGE_DIR)/less
+	chmod 444 $(INSTALL_PACKAGE_DIR)/less/*
 
 clean::
-	echo -- make clean --
 	$(RM_PACKAGE)
