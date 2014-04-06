@@ -3,6 +3,7 @@ include ../makefile.defs
 PACKAGE=ckeditor
 BWIKI_CONFIG=bwiki_config.js
 BWDP=java -jar t/js.jar t/convert.js
+export LANG=en_US.UTF-8
 
 all:: test build
 
