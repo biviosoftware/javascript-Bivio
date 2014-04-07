@@ -11,8 +11,8 @@ build:: ckeditor.pack $(BWIKI_CONFIG)
 	java -jar ckpackager.jar ckeditor.pack
 	$(MAKE_JS_INSTALL_DIR)
 	for a in $(PACKAGE_JS_FILENAME) $(BWIKI_CONFIG) adapters images plugins skins contents.css; do cp -a $$a $(INSTALL_JS_DIR); done
-	find $(INSTALL_JS_DIR) -type f -exec chmod 444 {} \;
-	find $(INSTALL_JS_DIR) -type d -exec chmod 555 {} \;
+	find $(INSTALL_JS_DIR) -type f -exec chmod 644 {} \;
+	find $(INSTALL_JS_DIR) -type d -exec chmod 755 {} \;
 
 test:: clean_test_results \
        test1.out test2.out test3.out test4.out test5.out \
