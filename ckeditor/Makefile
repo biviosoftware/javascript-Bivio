@@ -8,12 +8,11 @@ export LANG=en_US.UTF-8
 all:: test build
 
 build:: ckeditor.pack $(BWIKI_CONFIG)
-	java -jar ckpackager.jar ckeditor.pack  
+	java -jar ckpackager.jar ckeditor.pack
 	$(MAKE_JS_INSTALL_DIR)
-	mv $(PACKAGE_JS_PATH) $(INSTALL_JS_PATH)
-	chmod 444 $(INSTALL_JS_PATH)
-	cp $(BWIKI_CONFIG) $(INSTALL_JS_DIR)
-	chmod 444 $(INSTALL_JS_DIR)/$(BWIKI_CONFIG)
+	for a in $(PACKAGE_JS_FILENAME) $(BWIKI_CONFIG) adapters images plugins skins contents.css; do cp -a $$a $(INSTALL_JS_DIR); done
+	find $(INSTALL_JS_DIR) -type f -exec chmod 444 {} \;
+	find $(INSTALL_JS_DIR) -type d -exec chmod 555 {} \;
 
 test:: clean_test_results \
        test1.out test2.out test3.out test4.out test5.out \
