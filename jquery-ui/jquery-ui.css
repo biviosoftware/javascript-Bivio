@@ -1358,7 +1358,6 @@ input[type=file]:focus, input[type=checkbox]:focus, select:focus {
 input[type="text"],
 input[type="password"],
 textarea,
-*/
 .ui-autocomplete-input,
 .uneditable-input {
   display: inline-block;
@@ -1371,6 +1370,7 @@ textarea,
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
+*/
 
 
 /**Toolbar**/
